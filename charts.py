@@ -31,6 +31,22 @@ CHART_LAYOUT = dict(
 )
 
 
+def apply_theme(chart_colors: dict, font_family: str = "Inter, sans-serif") -> None:
+    """Swap the module-level color palette and chart layout in-place."""
+    COLORS.update(chart_colors)
+    new_layout = dict(
+        paper_bgcolor=COLORS["bg"],
+        plot_bgcolor=COLORS["bg"],
+        font=dict(family=font_family, color=COLORS["text"], size=13),
+        xaxis=dict(gridcolor=COLORS["border"], zerolinecolor=COLORS["border"]),
+        yaxis=dict(gridcolor=COLORS["border"], zerolinecolor=COLORS["border"]),
+        margin=dict(l=50, r=30, t=50, b=50),
+        legend=dict(bgcolor=COLORS["card"], bordercolor=COLORS["border"], borderwidth=1),
+    )
+    CHART_LAYOUT.clear()
+    CHART_LAYOUT.update(new_layout)
+
+
 def _billions(series: pd.Series) -> pd.Series:
     return (series / 1e9).round(2)
 
