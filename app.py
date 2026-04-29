@@ -27,9 +27,6 @@ st.set_page_config(
 )
 
 # ── Theme selector (must happen before any CSS is injected) ───────────────
-if "theme" not in st.session_state:
-    st.session_state["theme"] = "Default"
-
 THEME_ICONS = {
     "Default":            "◈ Default",
     "Bloomberg Terminal": "⬛ Terminal",
@@ -38,27 +35,16 @@ THEME_ICONS = {
 }
 THEME_NAMES = list(THEMES.keys())
 
-# Theme toggle lives at the very top of the sidebar
 with st.sidebar:
-    st.markdown(
-        "<p style='font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;"
-        "color:#555;margin-bottom:4px'>Theme</p>",
-        unsafe_allow_html=True,
-    )
-    selected_theme = st.radio(
-        "theme_radio",
+    st.markdown("### 🎨 Theme")
+    selected_theme_name = st.radio(
+        "Select a visual theme",
         options=THEME_NAMES,
         format_func=lambda t: THEME_ICONS[t],
-        index=THEME_NAMES.index(st.session_state["theme"]),
-        horizontal=False,
-        label_visibility="collapsed",
-        key="theme_radio",
+        key="active_theme",
     )
-    if selected_theme != st.session_state["theme"]:
-        st.session_state["theme"] = selected_theme
-        st.rerun()
 
-theme = THEMES[st.session_state["theme"]]
+theme = THEMES[selected_theme_name]
 
 # ── Apply theme: CSS + chart palette ─────────────────────────────────────
 st.markdown(f"<style>{theme['css']}</style>", unsafe_allow_html=True)
